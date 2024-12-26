@@ -9,6 +9,7 @@ import hackerton.be.domain.user.exception.UserException;
 import hackerton.be.domain.user.exception.UserExceptionType;
 import hackerton.be.domain.user.repository.UserRepository;
 import hackerton.be.domain.userRegisteredSubject.UserRegisteredSubject;
+import hackerton.be.domain.userRegisteredSubject.dto.UserRegisteredSubjectResponse;
 import hackerton.be.domain.userRegisteredSubject.repository.UserRegisteredSubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,5 +42,20 @@ public class UserRegisteredSubjectService {
                 .subject(subject)
                 .build();
         userRegisteredSubjectRepository.save(userRegisteredSubject);
+    }
+
+    // 사용자 등록 과목 조회
+    public List<UserRegisteredSubjectResponse> getUserSubjects(Long userId) {
+        List<UserRegisteredSubject> registeredSubjects = userRegisteredSubjectRepository.findByUserId(userId);
+
+        return registeredSubjects.stream()
+                .map(registered -> UserRegisteredSubjectResponse.builder()
+                        .id(registered.getId())
+                        .userId(registered.getUser().getId())
+                        .subjectId(registered.getSubject().getId())
+                        .subjectName(registered.getSubject().getName())
+                        .department(registered.getSubject().getDepartment())
+                        .build())
+                .toList();
     }
 }

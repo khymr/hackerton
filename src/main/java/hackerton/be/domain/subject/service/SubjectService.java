@@ -1,6 +1,7 @@
 package hackerton.be.domain.subject.service;
 
 import hackerton.be.domain.subject.Subject;
+import hackerton.be.domain.subject.dto.SubjectResponse;
 import hackerton.be.domain.subject.exception.SubjectException;
 import hackerton.be.domain.subject.exception.SubjectExceptionType;
 import hackerton.be.domain.subject.repository.SubjectRepository;
@@ -26,13 +27,24 @@ public class SubjectService {
     }
 
     // 특정 학과의 과목 조회
-    public List<Subject> getSubjectsByDepartment(String department) {
+    public List<SubjectResponse> getSubjectsByDepartment(String department) {
         List<Subject> subjects = subjectRepository.findByDepartment(department);
         if (subjects.isEmpty()) {
             throw new SubjectException(SubjectExceptionType.NO_SUBJECTS_FOUND);
         }
-        return subjects;
+        return subjects.stream()
+                .map(subject -> SubjectResponse.builder()
+                        .id(subject.getId())
+                        .name(subject.getName())
+                        .type(subject.getType())
+                        .credit(subject.getCredit())
+                        .grade(subject.getGrade())
+                        .department(subject.getDepartment())
+                        .professor(subject.getProfessor())
+                        .build())
+                .toList();
     }
+
 
 
 }
