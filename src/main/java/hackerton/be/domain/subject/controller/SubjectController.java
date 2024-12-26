@@ -5,25 +5,27 @@ import hackerton.be.domain.subject.dto.SubjectResponse;
 import hackerton.be.domain.subject.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/subjects")
 @RequiredArgsConstructor
-@RequestMapping("/subject")
 public class SubjectController {
     private final SubjectService subjectService;
-    @GetMapping
-    public List<String> getDepartments() {
-        return subjectService.getDepartments();
-    }
-    @GetMapping("/{department}")
+
+    // 학과별 과목 조회 API
+    @GetMapping("/department/{department}")
     public ResponseEntity<List<SubjectResponse>> getSubjectsByDepartment(@PathVariable String department) {
         List<SubjectResponse> subjects = subjectService.getSubjectsByDepartment(department);
         return ResponseEntity.ok(subjects);
+    }
+
+    // 사용자가 선택한 과목을 수강 처리하는 API
+    @PostMapping("/mark-as-taken")
+    public ResponseEntity<List<SubjectResponse>> markSubjectsAsTaken(@RequestBody List<Long> subjectIds) {
+        List<SubjectResponse> updatedSubjects = subjectService.markSubjectsAsTaken(subjectIds);
+        return ResponseEntity.ok(updatedSubjects);
     }
 }

@@ -24,6 +24,12 @@ public class Subject extends BaseEntity {
     private String department;// 주관학과
     private String professor;// 교수명
 
+    @Builder.Default
+    private boolean hasTakenBefore = false; // 기본값 False
+
+    public void markAsTaken() {
+        this.hasTakenBefore = true;
+    }
 
 
     public void updateName(String name) {

@@ -18,15 +18,6 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
 
     // 모든 학과 조회
-    public List<String> getDepartments() {
-        List<String> departments = subjectRepository.findAllDepartments();
-        if (departments.isEmpty()) {
-            throw new SubjectException(SubjectExceptionType.NO_DEPARTMENTS_FOUND);
-        }
-        return departments;
-    }
-
-    // 특정 학과의 과목 조회
     public List<SubjectResponse> getSubjectsByDepartment(String department) {
         List<Subject> subjects = subjectRepository.findByDepartment(department);
         if (subjects.isEmpty()) {
@@ -41,6 +32,34 @@ public class SubjectService {
                         .grade(subject.getGrade())
                         .department(subject.getDepartment())
                         .professor(subject.getProfessor())
+                        .hasTakenBefore(subject.isHasTakenBefore())
+                        .build())
+                .toList();
+    }
+
+    // 사용자가 선택한 과목의 상태 업데이트
+    public List<SubjectResponse> markSubjectsAsTaken(List<Long> subjectIds) {
+        List<Subject> subjects = subjectRepository.findAllById(subjectIds);
+
+        if (subjects.isEmpty()) {
+            throw new SubjectException(SubjectExceptionType.NO_SUBJECTS_FOUND);
+        }
+
+        // 선택된 과목들의 상태를 업데이트
+        subjects.forEach(Subject::markAsTaken);
+        subjectRepository.saveAll(subjects);
+
+        // 업데이트된 과목 리스트 반환
+        return subjects.stream()
+                .map(subject -> SubjectResponse.builder()
+                        .id(subject.getId())
+                        .name(subject.getName())
+                        .type(subject.getType())
+                        .credit(subject.getCredit())
+                        .grade(subject.getGrade())
+                        .department(subject.getDepartment())
+                        .professor(subject.getProfessor())
+                        .hasTakenBefore(subject.isHasTakenBefore())
                         .build())
                 .toList();
     }

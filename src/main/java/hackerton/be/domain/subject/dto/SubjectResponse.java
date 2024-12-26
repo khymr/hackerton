@@ -13,4 +13,5 @@ public class SubjectResponse {
     private Integer grade;    // 학년
     private String department;// 주관학과
     private String professor; // 교수명
+    private boolean hasTakenBefore; // 추가
 }
