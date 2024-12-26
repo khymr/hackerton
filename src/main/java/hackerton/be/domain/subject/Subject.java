@@ -25,6 +25,7 @@ public class Subject {
     private String professor;// 교수명
 
 
+
     public void updateName(String name) {
         this.name = name;
     }
