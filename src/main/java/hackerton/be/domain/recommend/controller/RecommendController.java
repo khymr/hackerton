@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users/{userId}/recommendations")
 @RequiredArgsConstructor
+@RequestMapping("/users/{userId}/recommendations")
 public class RecommendController {
     private final RecommendService recommendService;
+
 
     @PostMapping
     public ResponseEntity<?> saveRecommendations(
@@ -23,7 +24,7 @@ public class RecommendController {
         return ResponseEntity.ok("Recommendations saved successfully.");
     }
 
-    @GetMapping
+    @GetMapping("/users/{userId}/recommendations")
     public List<Recommend> getRecommendations(@PathVariable Long userId) {
         return recommendService.getRecommendations(userId);
     }
