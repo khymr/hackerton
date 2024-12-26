@@ -16,13 +16,13 @@ import java.util.List;
 public class UserRegisteredSubjectService {
     private final UserRegisteredSubjectRepository userRegisteredSubjectRepository;
 
-    public void registerSubjects(Long userId, List<Long> subjectIds) {
-        for (Long subjectId : subjectIds) {
-            UserRegisteredSubject userRegisteredSubject = UserRegisteredSubject.builder()
-                    .user(User.builder().id(userId).build())
-                    .subject(Subject.builder().id(subjectId).build())
-                    .build();
-            userRegisteredSubjectRepository.save(userRegisteredSubject);
-        }
+
+
+    public void registerSubject(Long userId, Long subjectId) {
+        UserRegisteredSubject userRegisteredSubject = UserRegisteredSubject.builder()
+                .user(User.builder().id(userId).build())
+                .subject(Subject.builder().id(subjectId).build())
+                .build();
+        userRegisteredSubjectRepository.save(userRegisteredSubject);
     }
 }
