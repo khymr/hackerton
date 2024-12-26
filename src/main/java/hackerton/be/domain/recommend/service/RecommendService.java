@@ -2,6 +2,8 @@ package hackerton.be.domain.recommend.service;
 
 import hackerton.be.domain.recommend.Recommend;
 import hackerton.be.domain.recommend.dto.RecommendationRequest;
+import hackerton.be.domain.recommend.exception.RecommendException;
+import hackerton.be.domain.recommend.exception.RecommendExceptionType;
 import hackerton.be.domain.recommend.repository.RecommendRepository;
 import hackerton.be.domain.user.User;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,10 @@ public class RecommendService {
 
     // 추천 데이터 저장
     public void saveRecommendations(Long userId, List<RecommendationRequest> recommendations) {
+
+        if (recommendations.isEmpty()) {
+            throw new RecommendException(RecommendExceptionType.EMPTY_RECOMMENDATION_LIST);
+        }
         for (RecommendationRequest request : recommendations) {
             Recommend recommend = Recommend.builder()
                     .user(User.builder().id(userId).build()) // 사용자와 연결
@@ -33,6 +39,10 @@ public class RecommendService {
 
     // 추천 데이터 조회
     public List<Recommend> getRecommendations(Long userId) {
-        return recommendRepository.findByUserId(userId);
+        List<Recommend> recommendations = recommendRepository.findByUserId(userId);
+        if (recommendations.isEmpty()) {
+            throw new RecommendException(RecommendExceptionType.NO_RECOMMENDATIONS_FOUND);
+        }
+        return recommendations;
     }
 }
