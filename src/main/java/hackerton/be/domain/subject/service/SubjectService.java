@@ -14,13 +14,14 @@ import java.util.List;
 public class SubjectService {
     private final SubjectRepository subjectRepository;
 
-    public List<Subject>getAllSubjects(){
-        return subjectRepository.findAll();
+    // 모든 학과 조회
+    public List<String> getDepartments() {
+        return subjectRepository.findAllDepartments();
     }
 
-    public Subject getSubjectById(Long id) {
-        return subjectRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 과목이 존재하지 않습니다" ));
+    // 특정 학과의 과목 조회
+    public List<Subject> getSubjectsByDepartment(String department) {
+        return subjectRepository.findByDepartment(department);
     }
 
 
