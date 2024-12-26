@@ -21,7 +21,7 @@ public class User {
 
     private String username; // 사용자 이름
 
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "user") // UserRegisteredSubject의 "user" 필드와 매핑
     private List<UserRegisteredSubject> registeredSubjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

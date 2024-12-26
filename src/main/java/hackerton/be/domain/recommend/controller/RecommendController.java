@@ -24,7 +24,7 @@ public class RecommendController {
         return ResponseEntity.ok("Recommendations saved successfully.");
     }
 
-    @GetMapping("/users/{userId}/recommendations")
+    @GetMapping
     public List<Recommend> getRecommendations(@PathVariable Long userId) {
         return recommendService.getRecommendations(userId);
     }
