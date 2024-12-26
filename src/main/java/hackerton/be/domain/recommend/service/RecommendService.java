@@ -6,6 +6,9 @@ import hackerton.be.domain.recommend.exception.RecommendException;
 import hackerton.be.domain.recommend.exception.RecommendExceptionType;
 import hackerton.be.domain.recommend.repository.RecommendRepository;
 import hackerton.be.domain.user.User;
+import hackerton.be.domain.user.exception.UserException;
+import hackerton.be.domain.user.exception.UserExceptionType;
+import hackerton.be.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,10 +20,13 @@ import java.util.List;
 @Transactional
 public class RecommendService {
     private final RecommendRepository recommendRepository;
+    private final UserRepository userRepository;
 
     // 추천 데이터 저장
     public void saveRecommendations(Long userId, List<RecommendationRequest> recommendations) {
 
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserExceptionType.USER_NOT_FOUND));
         if (recommendations.isEmpty()) {
             throw new RecommendException(RecommendExceptionType.EMPTY_RECOMMENDATION_LIST);
         }
@@ -39,6 +45,8 @@ public class RecommendService {
 
     // 추천 데이터 조회
     public List<Recommend> getRecommendations(Long userId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new UserException(UserExceptionType.USER_NOT_FOUND));
         List<Recommend> recommendations = recommendRepository.findByUserId(userId);
         if (recommendations.isEmpty()) {
             throw new RecommendException(RecommendExceptionType.NO_RECOMMENDATIONS_FOUND);
