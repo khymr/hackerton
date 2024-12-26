@@ -16,7 +16,7 @@ public class UserRegisteredSubjectController {
     private final UserRegisteredSubjectService userRegisteredSubjectService;
 
     @PostMapping
-    public ResponseEntity<?> registerSubject(@RequestBody UserSubjectRequest request) {
+    public ResponseEntity<String> registerSubject(@RequestBody UserSubjectRequest request) {
         userRegisteredSubjectService.registerSubject(request.getUserId(), request.getSubjectId());
         return ResponseEntity.ok("Subject registered successfully.");
     }
