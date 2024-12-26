@@ -1,5 +1,6 @@
 package hackerton.be.domain.user;
 
+import hackerton.be.domain.recommend.Recommend;
 import hackerton.be.domain.userRegisteredSubject.UserRegisteredSubject;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,9 @@ public class User {
 
     @OneToMany(mappedBy = "subject")
     private List<UserRegisteredSubject> registeredSubjects = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Recommend> recommends = new ArrayList<>();
 
 
 }
