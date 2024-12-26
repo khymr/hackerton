@@ -3,7 +3,7 @@ package hackerton.be.domain.subject;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "Subject")
+@Table(name = "subject")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
