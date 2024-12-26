@@ -1,6 +1,7 @@
 package hackerton.be.domain.recommend.service;
 
 import hackerton.be.domain.recommend.Recommend;
+import hackerton.be.domain.recommend.dto.GetRecommendationResponse;
 import hackerton.be.domain.recommend.dto.RecommendationRequest;
 import hackerton.be.domain.recommend.exception.RecommendException;
 import hackerton.be.domain.recommend.exception.RecommendExceptionType;
@@ -9,6 +10,8 @@ import hackerton.be.domain.user.User;
 import hackerton.be.domain.user.exception.UserException;
 import hackerton.be.domain.user.exception.UserExceptionType;
 import hackerton.be.domain.user.repository.UserRepository;
+import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,20 +40,28 @@ public class RecommendService {
                     .department(request.getDepartment())
                     .grade(request.getGrade())
                     .professor(request.getProfessor())
-                    .isSelected(false)
                     .build();
             recommendRepository.save(recommend);
         }
     }
 
     // 추천 데이터 조회
-    public List<Recommend> getRecommendations(Long userId) {
+    public List<GetRecommendationResponse> getRecommendations(Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new UserException(UserExceptionType.USER_NOT_FOUND));
         List<Recommend> recommendations = recommendRepository.findByUserId(userId);
         if (recommendations.isEmpty()) {
             throw new RecommendException(RecommendExceptionType.NO_RECOMMENDATIONS_FOUND);
         }
-        return recommendations;
+        return recommendations.stream()
+                .map(recommend -> GetRecommendationResponse.builder()
+                        .id(recommend.getId())
+                        .subjectName(recommend.getSubjectName())
+                        .department(recommend.getDepartment())
+                        .grade(recommend.getGrade())
+                        .professor(recommend.getProfessor())
+                        .build())
+                .toList();
     }
+
 }

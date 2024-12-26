@@ -2,6 +2,7 @@ package hackerton.be.domain.userRegisteredSubject;
 
 import hackerton.be.domain.subject.Subject;
 import hackerton.be.domain.user.User;
+import hackerton.be.global.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @Builder
-public class UserRegisteredSubject {
+public class UserRegisteredSubject extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

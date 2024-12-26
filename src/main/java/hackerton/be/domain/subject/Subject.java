@@ -1,5 +1,6 @@
 package hackerton.be.domain.subject;
 
+import hackerton.be.global.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @Builder
-public class Subject {
+public class Subject extends BaseEntity {
 
 
     @Id

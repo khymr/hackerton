@@ -1,6 +1,7 @@
 package hackerton.be.domain.recommend;
 
 import hackerton.be.domain.user.User;
+import hackerton.be.global.util.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Recommend {
+public class Recommend extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,7 +27,7 @@ public class Recommend {
     private Integer grade;      // 학년
     private String professor;   // 교수명
 
-    private boolean isSelected = false; // 사용자가 실제로 선택했는지 여부
 
-    private LocalDateTime recommendedAt = LocalDateTime.now(); // 추천된 시간
+
+
 }
