@@ -51,7 +51,7 @@ public class RecommendService {
                 .orElseThrow(() -> new UserException(UserExceptionType.USER_NOT_FOUND));
         List<Recommend> recommendations = recommendRepository.findByUserId(userId);
         if (recommendations.isEmpty()) {
-            throw new RecommendException(RecommendExceptionType.NO_RECOMMENDATIONS_FOUND);
+            return List.of(); // 빈 리스트 반환
         }
         return recommendations.stream()
                 .map(recommend -> GetRecommendationResponse.builder()

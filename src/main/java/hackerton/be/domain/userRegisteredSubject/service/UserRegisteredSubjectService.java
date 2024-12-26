@@ -58,4 +58,12 @@ public class UserRegisteredSubjectService {
                         .build())
                 .toList();
     }
+
+    public List<String> getAllDepartments() {
+        List<String> departments = subjectRepository.findAllDepartments();
+        if (departments.isEmpty()) {
+            throw new IllegalArgumentException("No departments found.");
+        }
+        return departments;
+    }
 }

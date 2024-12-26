@@ -27,4 +27,11 @@ public class UserRegisteredSubjectController {
         return ResponseEntity.ok(subjects);
     }
 
+    // 학과 정보를 반환하는 API
+    @GetMapping("/departments")
+    public ResponseEntity<List<String>> getAllDepartments() {
+        List<String> departments = userRegisteredSubjectService.getAllDepartments();
+        return ResponseEntity.ok(departments);
+    }
+
 }
